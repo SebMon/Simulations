@@ -5,7 +5,7 @@ public abstract class Simulation {
     private int height;
     private boolean[][] grid;
 
-    Simulation (int width, int height) {
+    protected Simulation (int width, int height) {
         this.width = width;
         this.height = height;
 
@@ -16,6 +16,10 @@ public abstract class Simulation {
 
     public boolean[][] getGrid() {
         return grid;
+    }
+
+    public void setGrid(boolean[][] newGrid) {
+        this.grid = newGrid;
     }
 
     public abstract void step();
