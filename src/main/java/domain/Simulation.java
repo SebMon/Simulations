@@ -20,11 +20,17 @@ public abstract class Simulation {
 
     public abstract void step();
 
-    public void setPointTrue(int x, int y) {
+    public void setPointTrue(int x, int y) throws ArrayIndexOutOfBoundsException {
+        if (x > this.width - 1 | y > this.height - 1) {
+            throw new ArrayIndexOutOfBoundsException("Point is outside grid.");
+        }
         grid[y][x] = true;
     }
 
-    public void setPointFalse(int x, int y) {
+    public void setPointFalse(int x, int y) throws ArrayIndexOutOfBoundsException {
+        if (x > this.width - 1 | y > this.height - 1) {
+            throw new ArrayIndexOutOfBoundsException("Point is outside grid.");
+        }
         grid[y][x] = false;
     }
 
@@ -39,18 +45,54 @@ public abstract class Simulation {
     public void setWidth(int width) {
         boolean[][] tempGrid = new boolean[this.height][width];
 
-        // Nested for loop going through the original grid, and copying the points to the new grid.
-        // All other points should be false.
+        if (width >= this.width) {
+            for (int y = 0; y < this.height; y++) {
+                for (int x = 0; x < this.width; x++) {
+                    tempGrid[y][x] = this.grid[y][x];
+                }
+            }
+        }
+        else {
+            for (int y = 0; y < this.height; y++) {
+                for (int x = 0; x < width; x++) {
+                    tempGrid[y][x] = this.grid[y][x];
+                }
+            }
+        }
 
+        this.width = width;
+        this.grid = tempGrid;
     }
 
-    public void setWHeight(int height) {
+    public void setHeight(int height) {
         boolean[][] tempGrid = new boolean[height][this.width];
 
-        // Nested for loop going through the original grid, and copying the points to the new grid.
-        // All other points should be false.
+        if (height >= this.height) {
+            for (int y = 0; y < this.height; y++) {
+                for (int x = 0; x < this.width; x++) {
+                    tempGrid[y][x] = this.grid[y][x];
+                }
+            }
+        }
+        else {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    tempGrid[y][x] = this.grid[y][x];
+                }
+            }
+        }
 
+        this.height = height;
+        this.grid = tempGrid;
     }
 
-
+    public void printGrid() {
+        for (int y = 0; y < this.height; y++) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int x = 0; x < this.width; x++) {
+                stringBuilder.append(this.grid[y][x]).append(" ");
+            }
+            System.out.println(stringBuilder);
+        }
+    }
 }
