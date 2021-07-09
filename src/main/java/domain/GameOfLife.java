@@ -13,7 +13,7 @@ public class GameOfLife extends Simulation {
     // x    , y + 1
     // x + 1, y + 1
 
-    GameOfLife(int width, int height) {
+    public GameOfLife(int width, int height) {
         super(width, height);
         this.neighbourX = new int[]{-1,  0,  1, -1,  1, -1,  0,  1};
         this.neighbourY = new int[]{-1, -1, -1,  0,  0,  1,  1,  1};

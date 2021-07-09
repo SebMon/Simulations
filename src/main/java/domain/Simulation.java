@@ -24,6 +24,10 @@ public abstract class Simulation {
 
     public abstract void step();
 
+    public boolean isCellAlive(int x, int y) throws ArrayIndexOutOfBoundsException {
+        return grid[y][x];
+    }
+
     public void setPointTrue(int x, int y) throws ArrayIndexOutOfBoundsException {
         if (x > this.width - 1 | y > this.height - 1) {
             throw new ArrayIndexOutOfBoundsException("Point is outside grid.");

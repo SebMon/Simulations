@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<VBox prefHeight="500" prefWidth="700" spacing="20" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.MainController">
+    <HBox>
+      <Pane prefHeight="500" prefWidth="500">
+              <Canvas fx:id="canvas" onMouseClicked="#toggleCell">
+              </Canvas>
+      </Pane>
+        <VBox prefHeight="500" prefWidth="200.0" spacing="10">
+         <children>
+            <RadioButton fx:id="radioButtonGameOfLife" text="Game of Life" mnemonicParsing="false" selected="true" >
+                <ToggleGroup fx:id="simulationTypeRadio"  />
+            </RadioButton>
+            <RadioButton fx:id="radioButton2" text="Second simulation" mnemonicParsing="false" toggleGroup="$simulationTypeRadio" disable="true"/>
+            <RadioButton fx:id="radioButton3" text="Third simulation" mnemonicParsing="false" toggleGroup="$simulationTypeRadio" disable="true"/>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.MainController">
-    <children>
-        <Button fx:id="buttonPushIt" layoutX="274.0" layoutY="316.0" mnemonicParsing="false" onAction="#pushed" text="Push it" />
-        <Label fx:id="labelHi" layoutX="279.0" layoutY="181.0" prefHeight="18.0" prefWidth="41.0" text="hi" textAlignment="CENTER" />
-    </children>
-</AnchorPane>
+             <Label text="Simulation width/height"/>
+             <HBox spacing="10">
+                 <TextField fx:id="simSize" prefWidth="70" />
+                 <Button text="Confirm" fx:id="sizeButton" onAction="#changeSize"/>
+             </HBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding></VBox>
+    </HBox>
+</VBox>
