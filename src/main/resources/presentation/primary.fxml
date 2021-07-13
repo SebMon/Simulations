@@ -24,9 +24,15 @@
                  <TextField fx:id="simSize" prefWidth="70" />
                  <Button text="Confirm" fx:id="sizeButton" onAction="#changeSize"/>
              </HBox>
+             <Button fx:id="stepButton" text="Advance simulation once" onAction="#stepOnce"/>
+             <HBox spacing="10">
+                 <Button text="Start" fx:id="startButton" onAction="#startSimulation"/>
+                 <Button text="Stop" fx:id="stopButton" onAction="#stopSimulation" disable="true"/>
+             </HBox>
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding></VBox>
+         </padding>
+        </VBox>
     </HBox>
 </VBox>

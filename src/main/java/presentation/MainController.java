@@ -2,8 +2,6 @@ package presentation;
 
 import domain.GameOfLife;
 import domain.Simulation;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -28,6 +26,13 @@ public class MainController {
     public TextField simSize;
     @FXML
     public Button sizeButton;
+    @FXML
+    public Button stepButton;
+    @FXML
+    public Button startButton;
+    @FXML
+    public Button stopButton;
+
 
     public GraphicsContext graphicsContext;
     public Simulation simulation;
@@ -37,6 +42,7 @@ public class MainController {
 
     public int cellSize;
 
+    public Thread loopThread;
 
 
     @FXML
@@ -49,11 +55,10 @@ public class MainController {
         onToggleGroupChange();
 
         cellSize = (int) (canvas.getWidth() / simulation.getWidth());
-
-        drawNewGrid();
+        drawSim();
     }
 
-    public void drawNewGrid() {
+    public void drawSim() {
         graphicsContext.setFill(Color.BLACK);
         graphicsContext.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
@@ -91,7 +96,18 @@ public class MainController {
     }
 
     public void toggleCell(MouseEvent mouseEvent) {
+        int x = (int) mouseEvent.getX() / cellSize;
+        int y = (int) mouseEvent.getY() / cellSize;
+        System.out.println("X: " + x + "\tY: " + y);
 
+        if (simulation.isCellAlive(x, y)) {
+            simulation.setPointFalse(x, y);
+        }
+        else {
+            simulation.setPointTrue(x, y);
+        }
+
+        drawSim();
     }
 
     public void changeSize(ActionEvent actionEvent) {
@@ -101,9 +117,40 @@ public class MainController {
             simulation.setWidth(widthAndHeight);
             simulation.setHeight(widthAndHeight);
             cellSize = (int) (canvas.getWidth() / simulation.getWidth());
-            drawNewGrid();
+            drawSim();
         } catch (NumberFormatException e) {
             System.out.println("Idiot, use ints");
         }
+    }
+
+    public void stepOnce(ActionEvent actionEvent) {
+        simulation.step();
+        drawSim();
+    }
+
+    public void startSimulation(ActionEvent actionEvent) {
+        startButton.setDisable(true);
+        stopButton.setDisable(false);
+
+        loopThread  = new Thread(() -> {
+            while (true) {
+                System.out.println("Vroom");
+                stepOnce(null);
+                drawSim();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+        });
+        loopThread.setDaemon(true);
+        loopThread.start();
+    }
+
+    public void stopSimulation(ActionEvent actionEvent) {
+        loopThread.interrupt();
+        startButton.setDisable(false);
+        stopButton.setDisable(true);
     }
 }
